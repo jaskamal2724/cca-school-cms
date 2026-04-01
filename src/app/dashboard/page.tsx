@@ -121,32 +121,61 @@ export default function DashboardHome() {
       return;
     }
     setLoading(true);
-    const response = await fetch(`/api/profile/${userId}`);
-    const data = await response.json();
-
-    if (data.error) {
-      setFormError(data.error);
-      return;
+    try {
+      const response = await fetch(`/api/profile/${userId}`);
+      
+      if (!response.ok) {
+        console.error(`Profile API returned ${response.status}`);
+        setFullName(dashboardData.full_name || "");
+        setEmail(dashboardData.email || "");
+        setRole(dashboardData.role || "");
+      } else {
+        const textData = await response.text();
+        try {
+          const data = JSON.parse(textData);
+          if (data.error) {
+            setFormError(data.error);
+          } else {
+            // handle if the database returns an array [ { profile_data } ] instead of an object
+            const profileRow = Array.isArray(data) ? data[0] : data;
+            setFullName(profileRow?.full_name || dashboardData.full_name || "");
+            setEmail(profileRow?.email || dashboardData.email || "");
+            setRole(profileRow?.role || dashboardData.role || "");
+            setAvatarUrl(profileRow?.avatar_url || "");
+          }
+        } catch (e) {
+          console.error("Failed to parse profile JSON:", textData);
+          setFullName(dashboardData.full_name || "");
+          setEmail(dashboardData.email || "");
+          setRole(dashboardData.role || "");
+        }
+      }
+    } catch (apiError) {
+      console.error("Network error fetching profile:", apiError);
+      setFullName(dashboardData.full_name || "");
+      setEmail(dashboardData.email || "");
+      setRole(dashboardData.role || "");
     }
-    setFullName(data.full_name || dashboardData.full_name || "");
-    setEmail(data.email || dashboardData.email || "");
-    setRole(data.role || dashboardData.role || "");
-    setAvatarUrl(data.avatar_url || "");
 
-    const countResults = await Promise.all(
-      contentRoutes.map(async (r) => {
-        const table = tableByHref[r.href];
-        const { count, error } = await supabase
-          .from(table)
-          .select("*", { count: "exact", head: true });
-        return {
-          ...r,
-          count: error ? 0 : (count ?? 0),
-        };
-      }),
-    );
-
-    setStats(countResults);
+    try {
+      const countResults = await Promise.all(
+        contentRoutes.map(async (r) => {
+          const table = tableByHref[r.href];
+          const { count, error } = await supabase
+            .from(table)
+            .select("*", { count: "exact", head: true });
+          return {
+            ...r,
+            count: error ? 0 : (count ?? 0),
+          };
+        }),
+      );
+      setStats(countResults);
+    } catch (statsErr) {
+      console.error("Failed to load stats:", statsErr);
+      setStats(contentRoutes.map(r => ({ ...r, count: 0 })));
+    }
+    
     setLoading(false);
   }, [userId, dashboardData]);
 
