@@ -146,7 +146,7 @@ export default function LoginPage() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Email ID"
-                      className="w-full bg-transparent text-[#162758] placeholder-[#c4cce8] px-4 py-2 focus:outline-none text-[15px]"
+                      className="w-full bg-transparent text-[#162758] placeholder-[#c4cce8] px-4 py-2 focus:outline-none text-[15px] [&:-webkit-autofill]:shadow-[inset_0_0_0_9999px_#7888c0] [&:-webkit-autofill]:[-webkit-text-fill-color:#162758] rounded-r-xl"
                       required
                     />
                   )}
@@ -176,7 +176,7 @@ export default function LoginPage() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Password"
-                      className="w-full bg-transparent text-[#162758] placeholder-[#c4cce8] px-4 py-2 focus:outline-none text-[15px]"
+                      className="w-full bg-transparent text-[#162758] placeholder-[#c4cce8] px-4 py-2 focus:outline-none text-[15px] [&:-webkit-autofill]:shadow-[inset_0_0_0_9999px_#7888c0] [&:-webkit-autofill]:[-webkit-text-fill-color:#162758] rounded-r-xl"
                       required
                     />
                   )}
