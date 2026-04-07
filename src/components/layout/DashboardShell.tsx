@@ -1,12 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/lib/hooks";
 import Sidebar from "@/components/layout/Sidebar";
 import Topbar from "@/components/layout/Topbar";
 import { CommandMenu } from "@/components/CommandMenu";
 
 export default function DashboardShell({ children }: { children: React.ReactNode }) {
   const [commandOpen, setCommandOpen] = useState(false);
+  const router = useRouter();
+  const userId = useAppSelector((state) => state.auth.user_id);
+
+  useEffect(() => {
+    if (!userId) {
+      router.replace("/login");
+    }
+  }, [userId, router]);
 
   return (
     <div className="flex h-screen w-full bg-slate-50 overflow-hidden text-slate-900 font-sans">

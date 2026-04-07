@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/lib/hooks";
 import { setUserId } from "@/redux/features/auth/authSlice";
 import { setDashboardData } from "@/redux/features/dashboard/dashboardSlice";
 
@@ -17,10 +18,17 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
+  const userId = useAppSelector((state) => state.auth.user_id);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (mounted && userId) {
+      router.replace("/dashboard/");
+    }
+  }, [mounted, userId, router]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,7 +64,7 @@ export default function LoginPage() {
       dispatch(setUserId(data.userId));
       dispatch(setDashboardData(dashboardData));
       
-      router.push("/dashboard/");
+      router.replace("/dashboard/");
     } catch (error) {
       setError("An error occurred during login");
       setLoading(false);

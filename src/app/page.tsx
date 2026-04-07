@@ -14,9 +14,9 @@ export default function RootPage() {
     // Show loader for 2.5 seconds, then redirect
     const timer = setTimeout(() => {
       if (!userId) {
-        router.push("/login");
+        router.replace("/login");
       } else {
-        router.push("/dashboard/");
+        router.replace("/dashboard/");
       }
     }, 2500);
 
