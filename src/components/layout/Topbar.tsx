@@ -90,10 +90,10 @@ export default function Topbar({ onOpenCommandMenu }: { onOpenCommandMenu: () =>
         </DropdownMenu.Root>
 
         {/* Notifications */}
-        <button className="p-2 rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors relative outline-none ring-2 ring-transparent focus-visible:ring-indigo-600">
+        {/* <button className="p-2 rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors relative outline-none ring-2 ring-transparent focus-visible:ring-indigo-600">
           <Bell className="w-5 h-5" />
           <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white" />
-        </button>
+        </button> */}
 
         {/* User Dropdown */}
         <div className="h-4 w-[1px] bg-slate-200 mx-1" />

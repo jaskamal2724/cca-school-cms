@@ -5,7 +5,7 @@ import { outfit } from "@/font";
 
 
 export const metadata: Metadata = {
-  title: "CCA School CMS",
+  title: "CCA CMS",
   description: "Content Management System for CCA School",
 };
 
