@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
+import { outfit } from "@/font";
 
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "CCA School CMS",
@@ -16,8 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} flex min-h-screen text-slate-900`}>
+    <html lang="en" className={outfit.className}>
+      <body className={`flex min-h-screen text-slate-900`}>
         <Providers>
           {children}
         </Providers>

@@ -58,7 +58,7 @@ export default function CreateAdminPage() {
   };
 
   return (
-    <div className="max-w-xl mx-auto space-y-8">
+    <div className="w-full space-y-8">
       <div>
         <p className="text-xs font-medium uppercase tracking-wider text-slate-500 mb-1 flex items-center gap-2">
           <Shield className="w-4 h-4" />

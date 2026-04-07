@@ -2,7 +2,7 @@
 @source "../";
 
 @theme {
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-outfit);
   /* Neutral admin UI — single restrained accent */
   --color-primary: #27272a;
   --color-primary-dark: #18181b;
@@ -27,6 +27,8 @@
     to { opacity: 1; }
   }
 }
+
+
 
 @layer components {
   .surface-card {
@@ -59,38 +61,99 @@
 }
 
 body {
-  @apply bg-[var(--color-dashboard-bg)] text-slate-900 min-h-screen antialiased;
+  @apply bg-[var(--color-dashboard-bg)] text-slate-900 min-h-screen antialiased max-w-none w-full;
 }
 
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
+/* ── Animated gradient border for Welcome card ── */
+@keyframes rotate-gradient {
+  0%   { --gradient-angle: 0deg; }
+  100% { --gradient-angle: 360deg; }
+}
+
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.animated-gradient-border {
+  position: relative;
+  border-radius: 1.75rem; /* matches inner section's rounded-3xl */
+  padding: 2px;           /* border thickness */
+  background: conic-gradient(
+    from var(--gradient-angle),
+    #6366f1,   /* indigo */
+    #8b5cf6,   /* violet */
+    #a855f7,   /* purple */
+    #ec4899,   /* pink */
+    #6366f1    /* back to indigo */
+  );
+  animation: rotate-gradient 4s linear infinite;
+}
+
+.animated-gradient-border > * {
+  border-radius: calc(1.75rem - 2px);
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
-.custom-scrollbar {
-  /* Firefox */
-  scrollbar-width: thin;
-  scrollbar-color: #6b7280 #f1f5f9;
+/* Global scrollbar styles */
+*::-webkit-scrollbar {
+  width: 5.3px;
+  height: 5.3px;
 }
 
-/* Chrome, Edge, Safari */
+*::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #2a676684;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  border: 1px solid #f6f6f6;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #2a6766;
+  border: 0px solid transparent;
+  transition: all 0.2s ease;
+  border-radius: 15px;
+  cursor: grab;
+}
+
+/* Keep class for explicit opt-in usage */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
+  width: 5.3px;
+  height: 5.3px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #f1f5f9;
-  border-radius: 999px;
+  background: transparent;
+  border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #6b7280;
-  border-radius: 999px;
-  border: 2px solid #f1f5f9;
+  background-color: #9e3dde84;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  border: 1px solid #f6f6f6;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #4b5563;
+  background-color: #34b6b3;
+  border: 0px solid transparent;
+  transition: all 0.2s ease;
+  border-radius: 15px;
+  cursor: grab;
 }
 
 @layer utilities {
